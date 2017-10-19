@@ -3,13 +3,15 @@ do_api_token: ~
 
 # DO SSH key settings
 do_ssh_name: ansible
-do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_dsa.pub') }}"
-do_ssh_private_key: "~/.ssh/id_dsa"
+do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+do_ssh_private_key: "~/.ssh/id_rsa"
 
 # DO droplet settings
 do_region: ams2
 do_size: 512mb
-do_image: "ubuntu-16-04-x64"
+do_image: "lamp-16-04"
+do_ipv6: true
+do_priv_net: true
 
 # Swap settings
 swapfile_location: /swapfile
@@ -20,4 +22,10 @@ swapfile_vfs_cache_pressure: 50
 # System user to create
 ssh_user: "{{ lookup('env', 'USER') }}"
 ssh_groups: "sudo"
-ssh_pub_key: "{{ lookup('file', '~/.ssh/id_dsa.pub') }}"
+ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+# UFW
+ufw_allow_ports:
+  - 22
+  - 80
+  - 443
