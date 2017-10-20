@@ -39,7 +39,7 @@
       digital_ocean_domain: >
         state=present
         name="{{ do_dns }}"
-        id="{{ do_droplet.droplet.id }}"
+        ip="{{ do_droplet.droplet.ip_address }}"
         api_token={{ do_api_token }}
       when: do_dns|length > 0
 
