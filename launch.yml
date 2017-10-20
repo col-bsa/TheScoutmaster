@@ -35,6 +35,9 @@
         wait_timeout=600
       register: do_droplet
 
+    - pause:
+        seconds: 20
+
     - name: Register DNS
       digital_ocean_domain: >
         state=present
