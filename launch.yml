@@ -6,36 +6,47 @@
     - name: do_name
       prompt: "Name of server"
       private: no
+    - name: do_dns
+      prompt: "DNS name to bind"
+      private: no
   tasks:
     - name: Register SSH key
-      digital_ocean: >
-        state=present
-        command=ssh
-        name="{{ do_ssh_name }}"
-        ssh_pub_key="{{ do_ssh_pub_key }}"
-        api_token={{ do_api_token }}
+      digital_ocean:
+        state: present
+        command: ssh
+        name: "{{ do_ssh_name }}"
+        ssh_pub_key: "{{ do_ssh_pub_key }}"
+        api_token: "{{ do_api_token }}"
       register: do_droplet
 
     - name: Register Droplet
-      digital_ocean: >
-        state=active
-        command=droplet
-        name={{ do_name }}
-        region_id={{ do_region }}
-        size_id={{ do_size }}
-        image_id={{ do_image }}
-        ipv6={{ do_ipv6 }}
-        private_networking={{ do_priv_net }}
-        ssh_key_ids={{ do_droplet.ssh_key.id }}
-        unique_name=yes
-        api_token={{ do_api_token }}
-        wait_timeout=600
+      digital_ocean:
+        state: active
+        command: droplet
+        name: "{{ do_name }}"
+        region_id: "{{ do_region }}"
+        size_id: "{{ do_size }}"
+        image_id: "{{ do_image }}"
+        ipv6: "{{ do_ipv6 }}"
+        private_networking: "{{ do_priv_net }}"
+        ssh_key_ids: "{{ do_droplet.ssh_key.id }}"
+        unique_name: yes
+        api_token: "{{ do_api_token }}"
+        wait_timeout: 600
       register: do_droplet
 
-    - pause:
-        seconds: 20
+    - name: Register DNS
+      digital_ocean_domain:
+        state: present
+        name: "{{ do_dns }}"
+        ip: "{{ do_droplet.droplet.ip_address }}"
+        api_token: "{{ do_api_token }}"
+      when: do_dns|length > 0
 
     - debug: msg="IP is {{ do_droplet.droplet.ip_address }}"
+
+    - pause:
+        seconds: 10
 
     - name: Add new droplet to inventory
       add_host: >
@@ -45,7 +56,6 @@
         ansible_ssh_host="{{ do_droplet.droplet.ip_address }}"
         ansible_ssh_user=root
         ansible_ssh_private_key_file="{{ do_ssh_private_key }}"
-
 - hosts: dohosts
 
   vars_files:

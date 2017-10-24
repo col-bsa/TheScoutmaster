@@ -15,7 +15,7 @@
     - git
     - python-certbot-apache
 
-- name: Ensure services is running and enabled
+- name: Ensure services are running and enabled
   service: name="{{ item }}" state=started enabled=yes
   with_items:
     - ntp
