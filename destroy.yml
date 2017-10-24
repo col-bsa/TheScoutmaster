@@ -6,9 +6,6 @@
     - name: do_name
       prompt: "Name of server to destroy"
       private: no
-    - name: do_dns
-      prompt: "DNS name to delete"
-      private: no
   tasks:
     - name: Delete droplet
       digital_ocean: >
@@ -16,10 +13,3 @@
         name={{ do_name }}
         unique_name=yes
         api_token={{ do_api_token }}
-
-    - name: Remove DNS record
-      digital_ocean_domain: >
-        state=absent
-        name="{{ do_dns }}"
-        api_token={{ do_api_token }}
-      when: do_dns|length > 0

@@ -26,20 +26,24 @@ ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
 # UFW
 ufw_allow_ports:
-  - 22
-  - 80
-  - 443
+- ssh
+- http
+- https
+
+# Admin Email
+admin_email: communications@UnamiLodge.org
+
+# Git info
+github_owner: col-bsa
+slack_hook: ~
+slack_channel: web_development
+slack_user: UnamiPublisher
 
 # Virtual hosts
 virtual_hosts:
   prod.example.org:
     repo: Example.org
     branch: master
-    aliases:
-      - production.example.org
-      - product.unamilodge.org
   dev.example.org:
     repo: Example.org
-    branch: e
-    aliases:
-      - development.example.org
+    branch: example
