@@ -20,14 +20,7 @@
   with_items:
     - ntp
     - fail2ban
-
-- name: Install non-essential packages
-  apt: pkg="{{ item }}" state=latest
-  with_items:
-    - software-properties-common
-    - glances
-    - git
-    - python-certbot-apache
+    - apache2
 
 - name: Download composer
   get_url:
