@@ -5,11 +5,11 @@
 # Questions: me@davidgibbons.me
 #
 
-GITHUB_OWNERNAME="YOUR_OWNERNAME"
-GITHUB_REPONAME="YOUR_REPONAME"
-SLACK_HOOK="YOUR_SLACKHOOK"
-SLACK_CHANNEL="YOUR_SLACKCHANNEL"
-SLACK_USER="YOUR_SLACKUSER"
+GITHUB_OWNERNAME="{{ github_owner }}"
+GITHUB_REPONAME="{{ item.value.repo }}"
+SLACK_HOOK="{{ slack_hook }}"
+SLACK_CHANNEL="{{ slack_channel }}"
+SLACK_USER="{{ slack_user }}"
 
 GITHUB_URL="https://github.com"
 
