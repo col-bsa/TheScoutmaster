@@ -14,6 +14,9 @@
     - glances
     - git
     - python-certbot-apache
+    - php-curl
+    - zip
+    - unzip
 
 - name: Ensure services are running and enabled
   service: name="{{ item }}" state=started enabled=yes
