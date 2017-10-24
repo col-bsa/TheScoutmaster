@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Simple Slack Message Builder
+# for post-merge
+# Questions: me@davidgibbons.me
+#
+
+GITHUB_OWNERNAME="YOUR_OWNERNAME"
+GITHUB_REPONAME="YOUR_REPONAME"
+SLACK_HOOK="YOUR_SLACKHOOK"
+SLACK_CHANNEL="YOUR_SLACKCHANNEL"
+SLACK_USER="YOUR_SLACKUSER"
+
+GITHUB_URL="https://github.com"
+
+HASH=$(git log -1 --pretty=%H)
+AUTHOR=$(git log -1 --pretty=%an)
+MESSAGE=$(git log -1 --pretty=%s)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+SLACK_TEXT="An update has been pushed to $GITHUB_REPONAME : \`$BRANCH\` <$GITHUB_URL/$GITHUB_OWNERNAME/$GITHUB_REPONAME/commit/$HASH|Click here> for details!"
+
+SLACK_ATTACHMENTS="
+[
+	{
+		\"fallback\": \"An update has been pushed to a Unami Lodge resource.\",
+		\"color\": \"#36a64f\",
+		\"author_name\": \"$AUTHOR\",
+		\"title\": \"$GITHUB_REPONAME : $BRANCH\",
+		\"title_link\": \"$GITHUB_URL/$GITHUB_OWNERNAME/$GITHUB_REPONAME/commit/$HASH\",
+		\"text\": \"$MESSAGE\"
+	}
+]
+"
+
+SLACK_DATA="payload={\"channel\": \"#$SLACK_CHANNEL\", \"username\": \"$SLACK_USER\", \"text\": \"$SLACK_TEXT\", \"attachments\": $SLACK_ATTACHMENTS}"
+
+curl -X POST --data-urlencode "$SLACK_DATA" $SLACK_HOOK

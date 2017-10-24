@@ -1,4 +1,4 @@
-- name: Add respos
+- name: Add repos
   apt_repository:
     repo: 'ppa:certbot/certbot'
 

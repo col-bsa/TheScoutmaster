@@ -29,3 +29,17 @@ ufw_allow_ports:
   - 22
   - 80
   - 443
+
+# Virtual hosts
+virtual_hosts:
+  prod.example.org:
+    repo: Example.org
+    branch: master
+    aliases:
+      - production.example.org
+      - product.unamilodge.org
+  dev.example.org:
+    repo: Example.org
+    branch: e
+    aliases:
+      - development.example.org
