@@ -41,9 +41,11 @@ slack_user: UnamiPublisher
 
 # Virtual hosts
 virtual_hosts:
-  prod.example.org:
-    repo: Example.org
+  dev.unamilodge.org:
+    repo: UnamiLodge.org
     branch: master
-  dev.example.org:
-    repo: Example.org
-    branch: example
+    alias: "development.unamilodge.org"
+  prod.conclave2015.org:
+    repo: Conclave2015.org
+    branch: master
+    alias: "www.conclave2015.org production.conclave2015.org"
