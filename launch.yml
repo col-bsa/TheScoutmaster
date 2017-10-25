@@ -64,11 +64,11 @@
     - vars.yml
 
   tasks:
-    - include: tasks/swap.yml
-    - include: tasks/software.yml
-    - include: tasks/security.yml
-    - include: tasks/users.yml
-    - include: tasks/hosts.yml
+    - include_tasks: tasks/swap.yml
+    - include_tasks: tasks/software.yml
+    - include_tasks: tasks/security.yml
+    - include_tasks: tasks/users.yml
+    - include_tasks: tasks/hosts.yml
 
   handlers:
-    - include: handlers/site.yml
+    - import_tasks: handlers/site.yml

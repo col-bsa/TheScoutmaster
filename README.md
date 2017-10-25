@@ -78,6 +78,7 @@ To-Do List
 
 * Add Let's Encrypt
 * Add sqlite
+* Add GitHub API
 
 Known issues
 ------------

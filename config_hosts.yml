@@ -6,7 +6,7 @@
   become_user: root
 
   tasks:
-    - include: tasks/hosts.yml
+    - include_tasks: tasks/hosts.yml
 
   handlers:
-    - include: handlers/site.yml
+    - import_tasks: handlers/site.yml
