@@ -76,7 +76,6 @@ Destroys a server on Digital Ocean.
 To-Do List
 ------------
 
-* Add Let's Encrypt
 * Add sqlite
 * Add GitHub API
 

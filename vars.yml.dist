@@ -49,3 +49,6 @@ virtual_hosts:
     repo: Conclave2015.org
     branch: master
     alias: "www.conclave2015.org production.conclave2015.org"
+
+# SSL domains
+ssl_domains: "dev.unamilodge.org,development.unamilodge.org,prod.conclave2015.org"
