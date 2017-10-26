@@ -6,15 +6,6 @@
   tasks:
     - include_tasks: tasks/digitalocean.yml
 
-    - name: Add deploy hook
-      github_hooks:
-        action: create
-        hookurl: https://{{ item.key }}
-        user: '{{ github_user }}'
-        oauthkey: '{{ github_token }}'
-        repo: https://api.github.com/repos/{{ github_owner }}/{{ item.value.repo }}
-      with_dict: "{{ virtual_hosts }}"
-
 - hosts: dohosts
 
   vars_files:
@@ -31,3 +22,18 @@
 
   handlers:
     - import_tasks: handlers/site.yml
+
+- hosts: localhost
+  connection: local
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Add deploy hook
+      github_hooks:
+        action: create
+        hookurl: https://{{ item.key }}/git_deploy.php
+        user: '{{ github_user }}'
+        oauthkey: '{{ github_token }}'
+        repo: https://api.github.com/repos/{{ github_owner }}/{{ item.value.repo }}
+      with_dict: "{{ virtual_hosts }}"

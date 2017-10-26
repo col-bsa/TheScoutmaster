@@ -5,8 +5,10 @@
 # Questions: me@davidgibbons.me
 #
 
+SERVER_NAME="{{ do_name }}"
 GITHUB_OWNERNAME="{{ github_owner }}"
 GITHUB_REPONAME="{{ item.value.repo }}"
+BRANCH="{{ item.value.branch }}"
 SLACK_HOOK="{{ slack_hook }}"
 SLACK_CHANNEL="{{ slack_channel }}"
 SLACK_USER="{{ slack_user }}"
@@ -16,7 +18,6 @@ GITHUB_URL="https://github.com"
 HASH=$(git log -1 --pretty=%H)
 AUTHOR=$(git log -1 --pretty=%an)
 MESSAGE=$(git log -1 --pretty=%s)
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 SLACK_TEXT="An update has been pushed to $GITHUB_REPONAME : \`$BRANCH\` <$GITHUB_URL/$GITHUB_OWNERNAME/$GITHUB_REPONAME/commit/$HASH|Click here> for details!"
 
@@ -28,7 +29,8 @@ SLACK_ATTACHMENTS="
 		\"author_name\": \"$AUTHOR\",
 		\"title\": \"$GITHUB_REPONAME : $BRANCH\",
 		\"title_link\": \"$GITHUB_URL/$GITHUB_OWNERNAME/$GITHUB_REPONAME/commit/$HASH\",
-		\"text\": \"$MESSAGE\"
+		\"text\": \"$MESSAGE\",
+		\"footer\": \"Sent by $SERVER_NAME\"
 	}
 ]
 "

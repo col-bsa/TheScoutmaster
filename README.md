@@ -30,6 +30,13 @@ Create a new API key on the [API access page](https://cloud.digitalocean.com/api
 Add the api_token to `vars.yml`.
 
 
+GitHub configuration
+---------------------------
+
+Create a personal access token [GitHub Developer Settings](https://github.com/settings/developers).
+Add the access token to `vars.yml`.
+
+
 Playbooks
 =========
 
@@ -54,15 +61,7 @@ What this Playbook do for you?
 - config sudoers
 - clones git repos
 - generates virtual hosts
-
-config_hosts.yml
------------
-
-Configure apache and web roots on already existing server.
-
-```
-    ansible-playbook -i hosts config_hosts.yml
-```
+- secures hosts with Let's Encrypt
 
 destroy.yml
 -----------
@@ -76,6 +75,6 @@ Destroys a server on Digital Ocean.
 To-Do List
 ------------
 
-* Add check to see if user is ready for letsencrypt
+* Add digitalocean monitoring
 * Automatically add hostkey
 * Add sqlite
