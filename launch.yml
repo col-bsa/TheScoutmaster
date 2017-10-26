@@ -9,7 +9,6 @@
 - hosts: dohosts
 
   vars_files:
-    - defaults/main.yml
     - vars.yml
 
   tasks:

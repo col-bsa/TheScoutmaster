@@ -8,8 +8,7 @@ Bootstrap Digital Ocean droplets using Ansible to:
 * Configure DNS domain
 * Destroy droplet
 
-Inspired by [hostmaster/ansible-digitalocean-bootstrap](https://github.com/hostmaster/ansible-digitalocean-bootstrap)
-Modified from [yoshz/ansible-digitalocean](https://github.com/yoshz/ansible-digitalocean)
+Inspired by [yoshz/ansible-digitalocean](https://github.com/yoshz/ansible-digitalocean).
 
 
 Installation
@@ -75,6 +74,6 @@ Destroys a server on Digital Ocean.
 To-Do List
 ------------
 
-* Add digitalocean monitoring
+* Separate tasks into roles
 * Automatically add hostkey
 * Add sqlite

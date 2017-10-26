@@ -25,6 +25,9 @@
     - fail2ban
     - apache2
 
+- name: Install do-agent
+  shell: curl -sSL https://agent.digitalocean.com/install.sh | sh
+
 - name: Install composer
   script: scripts/composer_installer.sh
   register: composer_install_fail

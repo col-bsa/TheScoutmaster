@@ -24,9 +24,12 @@ ssh_user: "{{ lookup('env', 'USER') }}"
 ssh_groups: "sudo, www-data"
 ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
+# SSH
+ssh_port: 22
+
 # UFW
 ufw_allow_ports:
-- ssh
+- "{{ ssh_port }}"
 - http
 - https
 

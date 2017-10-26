@@ -17,6 +17,7 @@
     image_id: "{{ do_image }}"
     ipv6: "{{ do_ipv6 }}"
     private_networking: "{{ do_priv_net }}"
+    virtio: yes
     ssh_key_ids: "{{ do_droplet.ssh_key.id }}"
     unique_name: yes
     api_token: "{{ do_api_token }}"
