@@ -1,23 +1,26 @@
 - name: Ensure sudoers.d is enabled
-  lineinfile: >
-    dest=/etc/sudoers
-    regexp='^#includedir /etc/sudoers.d'
-    line='#includedir /etc/sudoers.d'
-    state=present backup=yes
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^#includedir /etc/sudoers.d'
+    line: '#includedir /etc/sudoers.d'
+    state: present
+    backup: yes
 
 - name: Set up password-less sudo for admin users
-  copy: >
-    content="%{{ ssh_groups }} ALL=(ALL) NOPASSWD:ALL\nDefaults    env_keep+=SSH_AUTH_SOCK\n"
-    dest=/etc/sudoers.d/admin
-    owner=root group=root mode=0440
+  copy:
+    content: "%{{ ssh_groups }} ALL=(ALL) NOPASSWD:ALL\nDefaults    env_keep+=SSH_AUTH_SOCK\n"
+    dest: /etc/sudoers.d/admin
+    owner: root
+    group: root
+    mode: 0440
 
 - name: Strict SSH access
-  lineinfile: >
-    dest=/etc/ssh/sshd_config
-    state=present
-    regexp='^#?{{ item.key }}'
-    line='{{ item.key }} {{ item.value }}'
-    validate='/usr/sbin/sshd -t -f %s'
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: present
+    regexp: '^#?{{ item.key }}'
+    line: '{{ item.key }} {{ item.value }}'
+    validate: '/usr/sbin/sshd -t -f %s'
   with_items:
     - { key: 'PermitRootLogin',        value: 'no'}
     - { key: 'PasswordAuthentication', value: 'no'}

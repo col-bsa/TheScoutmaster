@@ -76,10 +76,6 @@ Destroys a server on Digital Ocean.
 To-Do List
 ------------
 
+* Add check to see if user is ready for letsencrypt
+* Automatically add hostkey
 * Add sqlite
-* Add GitHub API
-
-Known issues
-------------
-
-* _None Currently_

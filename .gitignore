@@ -1,5 +1,4 @@
 hosts
 vars.yml
 node_modules
-files/id_rsa
 ansible.cfg

@@ -1,0 +1,35 @@
+- name: Change ownership of all new files
+  file:
+    path: /var/www/
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Create virtual hosts
+  template:
+    src: files/virtualhost.conf
+    dest: /etc/apache2/sites-available/{{ item.key }}.conf
+    owner: www-data
+    group: www-data
+    mode: 0664
+  with_dict: "{{ virtual_hosts }}"
+
+- name: a2ensite virtual hosts
+  command: a2ensite {{ item }}
+  with_items: "{{ virtual_hosts }}"
+  notify:
+  - restart apache2
+
+- name: a2dissite default
+  command: a2dissite 000-default
+  notify:
+  - restart apache2
+
+- name: Let's Encrypt domains
+  command: certbot --apache --non-interactive --redirect --agree-tos --email {{ admin_email }} -d {{ ssl_domains }}
+
+- name: Add Let's Encrypt cronjob
+  cron:
+    name: "certbot"
+    special_time: weekly
+    job: "certbot renew"

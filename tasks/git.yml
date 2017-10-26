@@ -1,0 +1,87 @@
+- name: Create web directory
+  file:
+    path: /var/www/{{ item }}
+    state: directory
+    mode: 0750
+  with_items: "{{ virtual_hosts }}"
+
+- name: Make ssh key
+  command: ssh-keygen -t rsa -b 4096 -C {{ github_email }} -N '' -f /root/.ssh/id_rsa
+
+- name: Ensure github.com is a known host (root)
+  lineinfile:
+    dest: /root/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -H -t rsa github.com') }}"
+    regexp: "^github\\.com"
+
+- name: Make www .ssh directory
+  file:
+    path: /var/www/.ssh
+    state: directory
+    mode: 0700
+
+- name: Copy ssh to www
+  copy:
+    src: "/root/.ssh/{{ item }}"
+    dest: "/var/www/.ssh/{{ item }}"
+    remote_src: yes
+  with_items:
+    - id_rsa
+    - id_rsa.pub
+    - known_hosts
+
+- name: Read SSH public key to authorize
+  shell: cat /root/.ssh/id_rsa.pub
+  register: ssh_pub_key
+
+- name: Authorize key with GitHub
+  local_action:
+    module: github_key
+    name: '{{ do_name }}'
+    token: '{{ github_token }}'
+    pubkey: '{{ ssh_pub_key.stdout }}'
+    force: yes
+
+- name: Clone git repo
+  git:
+    repo: git@github.com:{{ github_owner }}/{{ item.value.repo }}.git
+    dest: /var/www/{{ item.key }}/public_html
+    version: '{{ item.value.branch }}'
+    depth: 1
+  with_dict: "{{ virtual_hosts }}"
+
+- name: Move .git
+  command: "mv .git/ ../git/"
+  args:
+    chdir: /var/www/{{ item }}/public_html/
+  with_items: "{{ virtual_hosts }}"
+
+- name: Make .git
+  lineinfile:
+    dest: /var/www/{{ item }}/public_html/.git
+    create: yes
+    state: present
+    line: "gitdir: ../git/"
+  with_items: "{{ virtual_hosts }}"
+
+- name: Add deploy script
+  template:
+    src: files/git_deploy.php
+    dest: /var/www/{{ item }}/public_html/git_deploy.php
+  with_items: "{{ virtual_hosts }}"
+
+- name: Create post-merge file
+  template:
+    src: files/post-merge
+    dest: /var/www/{{ item.key }}/git/hooks/post-merge
+    mode: 0770
+  with_dict: "{{ virtual_hosts }}"
+
+- name: Install dependencies
+  composer:
+    command: install
+    working_dir: /var/www/{{ item.key }}/public_html
+  ignore_errors: yes
+  with_dict: "{{ virtual_hosts }}"
