@@ -1,0 +1,20 @@
+- hosts: dohosts
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Create admin user
+      user:
+        name: "username"
+        comment: "Administrator account"
+        state: present
+        groups: "{{ ssh_groups }}"
+        shell: /bin/bash
+        append: yes
+        createhome: yes
+      become: true
+
+    - name: Deploy ssh public key
+      authorized_key: user="username" key="{{ lookup('file', '~/.ssh/username@domain/id_rsa.pub') }}"
+      become: true

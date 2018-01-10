@@ -62,6 +62,15 @@ What this Playbook do for you?
 - generates virtual hosts
 - secures hosts with Let's Encrypt
 
+add_user.yml
+-----------
+
+Adds a user and their public key.
+
+```
+    ansible-playbook -i hosts add_user.yml
+```
+
 destroy.yml
 -----------
 
@@ -76,4 +85,3 @@ To-Do List
 
 * Separate tasks into roles
 * Automatically add hostkey
-* Add sqlite

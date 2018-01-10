@@ -17,6 +17,7 @@
     image_id: "{{ do_image }}"
     ipv6: "{{ do_ipv6 }}"
     private_networking: "{{ do_priv_net }}"
+    backups: "{{ do_backups }}"
     virtio: yes
     ssh_key_ids: "{{ do_droplet.ssh_key.id }}"
     unique_name: yes
@@ -28,7 +29,7 @@
 
 - name: Wait for droplet to finish booting
   pause:
-    seconds: 15
+    seconds: 30
 
 - name: Add new droplet to inventory
   add_host:

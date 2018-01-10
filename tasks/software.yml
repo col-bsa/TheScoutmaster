@@ -8,6 +8,10 @@
 - name: Install essential packages
   apt: pkg="{{ item }}" state=latest
   with_items:
+    - apache2
+    - nginx
+    - php7.0
+    - sqlite3
     - ntp
     - fail2ban
     - software-properties-common
@@ -35,3 +39,9 @@
 - assert:
     that: composer_install_fail != 1
     msg: "Installer must come back with 0"
+
+- name: Add motd
+  template:
+    src: files/60-camp-motd
+    dest: /etc/update-motd.d/60-camp-motd
+    mode: 0755

@@ -25,6 +25,11 @@
   notify:
   - restart apache2
 
+- name: a2enmod rewrite
+  command: a2enmod rewrite
+  notify:
+  - restart apache2
+
 - pause:
     prompt: "Point appropriate nameserver records to this server. (Press Enter to Continue)"
 
