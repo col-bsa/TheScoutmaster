@@ -10,7 +10,7 @@
   with_items:
     - apache2
     - nginx
-    - php7.0
+    - php
     - sqlite3
     - ntp
     - fail2ban

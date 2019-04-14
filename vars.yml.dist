@@ -8,16 +8,16 @@ do_ssh_private_key: "~/.ssh/id_rsa"
 
 # DO droplet settings
 do_region: nyc1
-do_size: 512mb
-do_image: "ubuntu-16-04-x64"
+do_size: 1gb
+do_image: "ubuntu-18-04-x64"
 do_ipv6: true
 do_priv_net: true
 do_backups: true
 
 # Swap settings
 swapfile_location: /swapfile
-swapfile_size: 4G
-swapfile_swappiness: 1
+swapfile_size: 8G
+swapfile_swappiness: 0
 swapfile_vfs_cache_pressure: 50
 
 # System user to create
