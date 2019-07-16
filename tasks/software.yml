@@ -9,7 +9,6 @@
   apt: pkg="{{ item }}" state=latest
   with_items:
     - apache2
-    - nginx
     - php
     - sqlite3
     - ntp
@@ -19,8 +18,12 @@
     - git
     - python-certbot-apache
     - php-curl
+    - php-http
     - zip
     - unzip
+    - ruby-full
+    - build-essential
+    - zlib1g-dev
 
 - name: Ensure services are running and enabled
   service: name="{{ item }}" state=started enabled=yes
@@ -39,6 +42,18 @@
 - assert:
     that: composer_install_fail != 1
     msg: "Installer must come back with 0"
+
+- name: Add gem to bashrc part 1
+  shell: echo '# Install Ruby Gems to ~/gems' >> ~/.bashrc
+- name: Add gem to bashrc part 2
+  shell: echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
+- name: Add gem to bashrc part 3
+  shell: echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
+#- name: Add gem to bashrc part 4
+#  shell: source ~/.bashrc
+
+- name: Install jekyll bundler
+  shell: gem install jekyll bundler
 
 - name: Add motd
   template:

@@ -48,41 +48,37 @@
 - name: Clone git repo
   git:
     repo: git@github.com:{{ github_owner }}/{{ item.value.repo }}.git
-    dest: /var/www/{{ item.key }}/public_html
+    dest: /var/www/{{ item.key }}/repo
     version: '{{ item.value.branch }}'
     depth: 1
   with_dict: "{{ virtual_hosts }}"
 
-- name: Move .git
-  command: "mv .git/ ../git/"
-  args:
-    chdir: /var/www/{{ item }}/public_html/
-  with_items: "{{ virtual_hosts }}"
-
-- name: Make .git
-  lineinfile:
-    dest: /var/www/{{ item }}/public_html/.git
-    create: yes
-    state: present
-    line: "gitdir: ../git/"
-  with_items: "{{ virtual_hosts }}"
-
 - name: Add deploy script
   template:
-    src: files/git_deploy.php
-    dest: /var/www/{{ item }}/public_html/git_deploy.php
+    src: files/jekyll_deploy.php
+    dest: /var/www/{{ item }}/repo/jekyll_deploy.php
   with_items: "{{ virtual_hosts }}"
 
 - name: Create post-merge file
   template:
-    src: files/post-merge
-    dest: /var/www/{{ item.key }}/git/hooks/post-merge
+    src: files/post-merge-jekyll
+    dest: /var/www/{{ item.key }}/repo/.git/hooks/post-merge
     mode: 0770
   with_dict: "{{ virtual_hosts }}"
 
 - name: Install dependencies
   composer:
     command: install
-    working_dir: /var/www/{{ item.key }}/public_html
+    working_dir: /var/www/{{ item.key }}/repo
   ignore_errors: yes
+  with_dict: "{{ virtual_hosts }}"
+
+- lineinfile:
+    path: var/www/{{ item.key }}/repo/_config.yml
+    regexp: 's%http://127.0.0.1:4000%g'
+    line: "http://{{ item.url }}"
+  with_dict: "{{ virtual_hosts }}"
+
+- name: Build site
+  command: jekyll build -s /var/www/{{ item.key }}/repo -d /var/www/{{ item.key }}/public_html
   with_dict: "{{ virtual_hosts }}"

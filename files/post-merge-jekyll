@@ -18,6 +18,9 @@ HASH=$(git log -1 --pretty=%H)
 AUTHOR=$(git log -1 --pretty=%an)
 MESSAGE=$(git log -1 --pretty=%s)
 
+sed -i 's%http://127.0.0.1:4000%{{ item.value.url }}%g' _config.yml
+jekyll build -s . -d ../public_html
+
 SLACK_TEXT="An update has been pushed to $GITHUB_REPONAME : \`$BRANCH\` <$GITHUB_URL/$GITHUB_OWNERNAME/$GITHUB_REPONAME/commit/$HASH|Click here> for details!"
 
 SLACK_ATTACHMENTS="

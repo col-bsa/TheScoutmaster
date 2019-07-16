@@ -30,14 +30,14 @@
   notify:
   - restart apache2
 
-- pause:
-    prompt: "Point appropriate nameserver records to this server. (Press Enter to Continue)"
+# - pause:
+#     prompt: "Point appropriate nameserver records to this server. (Press Enter to Continue)"
 
-- name: Let's Encrypt domains
-  command: certbot --apache --non-interactive --redirect --agree-tos --email {{ admin_email }} -d {{ ssl_domains }}
+# - name: Let's Encrypt domains
+#   command: certbot --apache --non-interactive --redirect --agree-tos --email {{ admin_email }} -d {{ ssl_domains }}
 
-- name: Add Let's Encrypt cronjob
-  cron:
-    name: "certbot"
-    special_time: weekly
-    job: "certbot renew"
+# - name: Add Let's Encrypt cronjob
+#   cron:
+#     name: "certbot"
+#     special_time: weekly
+#     job: "certbot renew"

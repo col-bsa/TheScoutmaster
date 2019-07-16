@@ -8,7 +8,7 @@ do_ssh_private_key: "~/.ssh/id_rsa"
 
 # DO droplet settings
 do_region: nyc1
-do_size: 1gb
+do_size: s-1vcpu-1gb
 do_image: "ubuntu-18-04-x64"
 do_ipv6: true
 do_priv_net: true
@@ -52,13 +52,17 @@ do_name: example.unamilodge.org
 # Virtual hosts
 virtual_hosts:
   dev.unamilodge.org:
+    url: dev.unamilodge.org
     repo: UnamiLodge.org
     branch: master
     alias: "development.unamilodge.org"
+    environment: production
   prod.conclave2015.org:
+    url: conclave2015.org
     repo: Conclave2015.org
     branch: master
     alias: "www.conclave2015.org production.conclave2015.org"
+    environment: development
 
 # SSL domains
 ssl_domains: "dev.unamilodge.org,development.unamilodge.org,prod.conclave2015.org"

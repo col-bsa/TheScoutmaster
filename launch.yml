@@ -31,7 +31,7 @@
     - name: Add deploy hook
       github_hooks:
         action: create
-        hookurl: https://{{ item.key }}/git_deploy.php
+        hookurl: https://{{ item.key }}/jekyll_deploy.php
         user: '{{ github_user }}'
         oauthkey: '{{ github_token }}'
         repo: https://api.github.com/repos/{{ github_owner }}/{{ item.value.repo }}
